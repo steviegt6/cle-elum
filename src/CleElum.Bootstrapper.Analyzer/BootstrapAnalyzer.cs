@@ -36,7 +36,8 @@ public sealed class BootstrapAnalyzer : DiagnosticAnalyzer {
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
         description: ALREADY_INITIALIZED_DESCRIPTION,
-        helpLinkUri: "CompilationEnd"
+        helpLinkUri: null,
+        customTags: "CompilationEnd"
     );
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
