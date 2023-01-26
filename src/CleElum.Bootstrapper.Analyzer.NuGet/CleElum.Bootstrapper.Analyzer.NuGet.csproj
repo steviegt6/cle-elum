@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="../version.targets"/>
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+
+        <Version>$(SharedVersion)</Version>
+        <FileVersion>$(SharedVersion)</FileVersion>
+        <AssemblyVersion>$(SharedVersion)</AssemblyVersion>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>Tomat.CleElum.Bootstrapper.Analyzer</PackageId>
+        <Title>CleElum.Bootstrapper.Analyzer</Title>
+        <Description>Bootstrapper for Roslyn hacking.</Description>
+        <Authors>Tomat</Authors>
+        <PackageLicenseExpression>LGPL-2.1-or-later</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/steviegt6/cle-elum</PackageProjectUrl>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Reference to ensure the project is actually build prior to 
+             packing. -->
+        <ProjectReference Include="..\CleElum.Bootstrapper.Analyzer\CleElum.Bootstrapper.Analyzer.csproj" Private="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None PackagePath="analyzers/dotnet/cs/" Include="$(MSBuildThisFileDirectory)\CleElum.Bootstrapper.Analyzer\bin\$(Configuration)\netstandard2.0\CleElum.Bootstrapper.Analyzer.dll" Pack="true"/>
+    </ItemGroup>
+
+</Project>

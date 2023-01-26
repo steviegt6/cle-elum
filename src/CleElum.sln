@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleElum.Bootstrapper.Analyzer", "CleElum.Bootstrapper.Analyzer\CleElum.Bootstrapper.Analyzer.csproj", "{E3581BC3-F870-4C2A-B4E4-0D4ABC22267F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleElum.Bootstrapper.Analyzer.NuGet", "CleElum.Bootstrapper.Analyzer.NuGet\CleElum.Bootstrapper.Analyzer.NuGet.csproj", "{4AD7552A-11CA-4861-A1CF-302A8870712A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{6C19CB05-1FF4-4DE5-B122-99A5C8857BB0}"
+	ProjectSection(SolutionItems) = preProject
+		version.targets = version.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleElum.Bootstrapper.Analyzer.Tests", "CleElum.Bootstrapper.Analyzer.Tests\CleElum.Bootstrapper.Analyzer.Tests.csproj", "{A5BDDB03-D57E-4E92-BBDF-1F981CDF8C9B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3581BC3-F870-4C2A-B4E4-0D4ABC22267F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3581BC3-F870-4C2A-B4E4-0D4ABC22267F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3581BC3-F870-4C2A-B4E4-0D4ABC22267F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3581BC3-F870-4C2A-B4E4-0D4ABC22267F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AD7552A-11CA-4861-A1CF-302A8870712A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AD7552A-11CA-4861-A1CF-302A8870712A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AD7552A-11CA-4861-A1CF-302A8870712A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AD7552A-11CA-4861-A1CF-302A8870712A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5BDDB03-D57E-4E92-BBDF-1F981CDF8C9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5BDDB03-D57E-4E92-BBDF-1F981CDF8C9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5BDDB03-D57E-4E92-BBDF-1F981CDF8C9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5BDDB03-D57E-4E92-BBDF-1F981CDF8C9B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

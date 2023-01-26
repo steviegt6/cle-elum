@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="../version.targets"/>
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <!--<IncludeBuildOutput>false</IncludeBuildOutput>-->
+        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+
+        <Version>$(SharedVersion)</Version>
+        <FileVersion>$(SharedVersion)</FileVersion>
+        <AssemblyVersion>$(SharedVersion)</AssemblyVersion>
+
+        <developmentDependency>true</developmentDependency>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <AdditionalFiles Include="AnalyzerReleases.Shipped.md"/>
+        <AdditionalFiles Include="AnalyzerReleases.Unshipped.md"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="../../lib/MonoMod.RuntimeDetour/*.dll"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations" Version="2022.3.1"/>
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.4.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="MonoMod.RuntimeDetour">
+            <HintPath>..\..\lib\MonoMod.RuntimeDetour\MonoMod.RuntimeDetour.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+</Project>
