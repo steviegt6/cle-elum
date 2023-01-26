@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+
+        <Version>1.0.0</Version>
+        <FileVersion>$(Version)</FileVersion>
+        <AssemblyVersion>$(Version)</AssemblyVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CleElum.Bootstrapper.Analyzer\CleElum.Bootstrapper.Analyzer.csproj" Private="false" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="MonoMod.RuntimeDetour">
+            <Private>false</Private>
+            <HintPath>..\..\lib\MonoMod.RuntimeDetour\MonoMod.RuntimeDetour.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+</Project>

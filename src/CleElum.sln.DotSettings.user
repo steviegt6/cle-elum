@@ -1,3 +1,16 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005Cxxlen_005CDocuments_005CRepositories_005Csteviegt6_005Ccle_002Delum_005Clib_005CMMHOOK_005FMicrosoft_002ECodeAnalysis_002ECSharp_005CMMHOOK_005FMicrosoft_002ECodeAnalysis_002ECSharp_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005Cxxlen_005CDocuments_005CRepositories_005Csteviegt6_005Ccle_002Delum_005Clib_005CMonoMod_002ERuntimeDetour_005CMonoMod_002ERuntimeDetour_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4b86a20f_002D3904_002D4e34_002Db085_002D1a7bf9894a05/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestNameOf" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::A5BDDB03-D57E-4E92-BBDF-1F981CDF8C9B::net7.0::CleElum.Bootstrapper.Analyzer.Tests.UnrestrictedNameOf.UnrestrictedNameOfTests.TestNameOf&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	
+	
+	
+	
+	
+	
 	</wpf:ResourceDictionary>

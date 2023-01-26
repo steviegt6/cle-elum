@@ -8,6 +8,7 @@ internal static class Constants {
     
 #region Categories
     public const string CATEGORY_BOOTSTRAP = "Bootstrap";
+    public const string CATEGORY_PATCH = "Patch";
 #endregion
 
 #region Titles
