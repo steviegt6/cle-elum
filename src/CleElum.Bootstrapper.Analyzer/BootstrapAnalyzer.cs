@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Reflection;
 using JetBrains.Annotations;
@@ -7,6 +8,11 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace CleElum.Bootstrapper.Analyzer;
 
+/// <summary>
+///     Core <see cref="DiagnosticAnalyzer"/> used to bootstrap MonoMod and
+///     handle the requests of assemblies looking to execute actions after we
+///     have initialized.
+/// </summary>
 [UsedImplicitly]
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class BootstrapAnalyzer : DiagnosticAnalyzer {
@@ -30,20 +36,28 @@ public sealed class BootstrapAnalyzer : DiagnosticAnalyzer {
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
         description: ALREADY_INITIALIZED_DESCRIPTION,
-        helpLinkUri: null
+        helpLinkUri: "CompilationEnd"
     );
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
         ImmutableArray.Create(initialization_failed, already_initialized);
 
-    private bool initialized;
-    private Exception? exception;
+    private static readonly List<Action<bool>> actions = new();
+    private static bool initialized;
+    private static bool initializedTwice;
+    private static Exception? exception;
 
     public override void Initialize(AnalysisContext context) {
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
 
         context.RegisterCompilationAction(ctx => {
+            if (initializedTwice) {
+                ctx.ReportDiagnostic(
+                    Diagnostic.Create(already_initialized, Location.None)
+                );
+            }
+
             if (exception is null)
                 return;
 
@@ -51,12 +65,13 @@ public sealed class BootstrapAnalyzer : DiagnosticAnalyzer {
                 Diagnostic.Create(
                     initialization_failed,
                     Location.None,
-                    exception)
+                    exception
+                )
             );
         });
 
         if (initialized) {
-            // TODO: Report?
+            initializedTwice = true;
             return;
         }
 
@@ -70,6 +85,11 @@ public sealed class BootstrapAnalyzer : DiagnosticAnalyzer {
         finally {
             // Don't attempt to initialize again, even if it failed.
             initialized = true;
+
+            // Run post-initialization actions.
+            foreach (var action in actions)
+                action(exception is not null);
+            actions.Clear();
         }
     }
 
@@ -105,5 +125,20 @@ public sealed class BootstrapAnalyzer : DiagnosticAnalyzer {
 
     private static void InitializeMonoMod() {
         // TODO: Anything important to do here?
+    }
+
+    /// <summary>
+    ///     Executes the given <paramref name="action"/> post-initialization.
+    /// </summary>
+    /// <param name="action">The action to execute.</param>
+    /// <exception cref="ArgumentNullException">action is null</exception>
+    public static void ExecuteAfterInitialization(Action<bool> action) {
+        if (action is null)
+            throw new ArgumentNullException(nameof(action));
+
+        if (initialized)
+            action(exception is not null);
+        else
+            actions.Add(action);
     }
 }
