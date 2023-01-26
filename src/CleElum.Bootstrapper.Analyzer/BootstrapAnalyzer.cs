@@ -73,7 +73,7 @@ public sealed class BootstrapAnalyzer : DiagnosticAnalyzer {
         }
     }
 
-    private static string[] expected_assemblies = {
+    private static readonly string[] expected_assemblies = {
         "CleElum.Bootstrapper.Analyzer.MonoMod.Common.dll",
         "CleElum.Bootstrapper.Analyzer.MonoMod.Utils.dll",
         "CleElum.Bootstrapper.Analyzer.MonoMod.dll",
@@ -104,5 +104,6 @@ public sealed class BootstrapAnalyzer : DiagnosticAnalyzer {
     }
 
     private static void InitializeMonoMod() {
+        // TODO: Anything important to do here?
     }
 }
