@@ -19,6 +19,7 @@
     <ItemGroup>
         <ProjectReference Include="..\CleElum.Bootstrapper.Analyzer\CleElum.Bootstrapper.Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true"/>
         <ProjectReference Include="..\CleElum.UnrestrictedNameOf.Analyzer\CleElum.UnrestrictedNameOf.Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true"/>
+        <ProjectReference Include="..\CleElum.IgnoresAccessChecksToAttribute.Analyzer\CleElum.IgnoresAccessChecksToAttribute.Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true"/>
     </ItemGroup>
 
 </Project>

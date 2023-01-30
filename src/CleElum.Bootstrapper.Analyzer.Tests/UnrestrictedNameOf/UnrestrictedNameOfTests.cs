@@ -7,8 +7,8 @@ public static class UnrestrictedNameOfTests {
     }
     
     [TestCase(nameof(A), "A")]
-    // [TestCase(nameof(A.B), "B")]
+    [TestCase(nameof(A.B), "B")]
     public static void TestNameOf(string nameOf, string actual) {
-        Assert.Equals(nameOf, actual);
+        Assert.AreEqual(nameOf, actual);
     }
 }

@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleElum.UnrestrictedNameOf.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleElum.HookGen", "CleElum.HookGen\CleElum.HookGen.csproj", "{E147E1B4-EFE8-4CC5-92BF-75FBD3E2AF2B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleElum.IgnoresAccessChecksToAttribute.Analyzer", "CleElum.IgnoresAccessChecksToAttribute.Analyzer\CleElum.IgnoresAccessChecksToAttribute.Analyzer.csproj", "{407102A9-7D15-4350-AA51-0D51C1C8B70F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,5 +49,9 @@ Global
 		{E147E1B4-EFE8-4CC5-92BF-75FBD3E2AF2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E147E1B4-EFE8-4CC5-92BF-75FBD3E2AF2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E147E1B4-EFE8-4CC5-92BF-75FBD3E2AF2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{407102A9-7D15-4350-AA51-0D51C1C8B70F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{407102A9-7D15-4350-AA51-0D51C1C8B70F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{407102A9-7D15-4350-AA51-0D51C1C8B70F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{407102A9-7D15-4350-AA51-0D51C1C8B70F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
