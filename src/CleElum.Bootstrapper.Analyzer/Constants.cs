@@ -1,6 +1,6 @@
 ﻿namespace CleElum.Bootstrapper.Analyzer;
 
-internal static class Constants {
+public static class Constants {
 #region Identifiers
     public const string INITIALIZATION_FAILED_ID = "CE0001";
     public const string ALREADY_INITIALIZED_ID = "CE0002";

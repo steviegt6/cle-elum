@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Reflection;
 using CleElum.Bootstrapper.Analyzer;
 using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
+using MonoMod.Cil;
 using MonoMod.RuntimeDetour.HookGen;
 
 namespace CleElum.UnrestrictedNameOf.Analyzer;
@@ -13,14 +15,29 @@ namespace CleElum.UnrestrictedNameOf.Analyzer;
 [UsedImplicitly]
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class UnrestrictedNameOfAnalyzer : DiagnosticAnalyzer {
+    private static readonly DiagnosticDescriptor patch = new(
+        id: PATCH_ID,
+        title: PATCH_TITLE,
+        messageFormat: PATCH_FORMAT,
+        category: CATEGORY_PATCH,
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: PATCH_DESCRIPTION,
+        helpLinkUri: null,
+        customTags: new[] {
+            Build,
+            Compiler,
+            CompilationEnd,
+        }
+    );
+
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        ImmutableArray<DiagnosticDescriptor>.Empty;
+        ImmutableArray.Create(patch);
 
     public override void Initialize(AnalysisContext context) {
         //context.RegisterSymbolStartAction(null, );
         BootstrapAnalyzer.EnsureInitialized();
         Patch();
-        throw new Exception("guh");
     }
 
     private static void Patch() {
@@ -32,122 +49,20 @@ public sealed class UnrestrictedNameOfAnalyzer : DiagnosticAnalyzer {
             BindingFlags.Static | BindingFlags.NonPublic
         );
 
-        HookEndpointManager.Add(isac, MakeAccessible);
+        // On_AccessCheck.IsSymbolAccessibleCore += MakeAccessible;
+        var a = typeof(HookEndpointManager);
+        HookEndpointManager.Modify(
+            isac,
+            (ILContext il) => {
+                var c = new ILCursor(il) {
+                    Next = null,
+                };
 
-        /*var type = asm.GetType("Microsoft.CodeAnalysis.CSharp.NameofBinder");
-        var meth = type?.GetMethod(
-            "LookupSymbolsInSingleBinder",
-            BindingFlags.NonPublic | BindingFlags.Instance
-        );
-
-        if (type is null || meth is null)
-            return;
-
-        HookEndpointManager.Add(
-            meth,
-            Test
-        );*/
-    }
-
-    private delegate void OrigIsSymbolAccessibleCore(
-        object symbol,
-        object within,
-        object throughTypeOpt,
-        out bool failedThroughTypeCheck,
-        CSharpCompilation compliation,
-        ref object useSiteInfo,
-        object? basesBeingResolved
-    );
-
-    private static bool MakeAccessible(
-        OrigIsSymbolAccessibleCore orig,
-        object symbol,
-        object within,
-        object throughTypeOpt,
-        out bool failedThroughTypeCheck,
-        CSharpCompilation compilation,
-        ref object useSiteInfo,
-        object? basesBeingResolved
-    ) {
-        orig(
-            symbol,
-            within,
-            throughTypeOpt,
-            out failedThroughTypeCheck,
-            compilation,
-            ref useSiteInfo,
-            basesBeingResolved
-        );
-        return true;
-    }
-
-    /*private delegate void OrigTest(
-        object self,
-        object result,
-        string name,
-        int arity,
-        object basesBeingResolved,
-        object options,
-        object originalBinder,
-        bool diagnose,
-        ref object useSiteInfo
-    );
-
-    private static void Test(
-        OrigTest orig,
-        object self,
-        object result,
-        string name,
-        int arity,
-        object basesBeingResolved,
-        object options,
-        object originalBinder,
-        bool diagnose,
-        ref object useSiteInfo
-    ) {
-        orig(
-            self,
-            result,
-            name,
-            arity,
-            basesBeingResolved,
-            options,
-            originalBinder,
-            diagnose,
-            ref useSiteInfo
-        );
-
-        var asm = typeof(LanguageVersion).Assembly;
-        var lrType = asm.GetType("Microsoft.CodeAnalysis.CSharp.LookupResult");
-        var good = lrType.GetMethod(
-            "Good",
-            BindingFlags.NonPublic | BindingFlags.Static
-        );
-        var mergeEqual = lrType.GetMethod(
-            "MergeEqual",
-            BindingFlags.NonPublic | BindingFlags.Static,
-            null,
-            new[] {
-                asm.GetType("Microsoft.CodeAnalysis.CSharp.SingleLookupResult"),
-            },
-            null
-        );
-
-        //if (good is null || mergeEqual is null)
-        //    return;
-
-        var slr = good.Invoke(
-            null,
-            new object?[] {
-                null,
+                while (c.TryGotoPrev(MoveType.Before, x => x.MatchRet())) {
+                    c.Emit(Pop);
+                    c.Emit(Ldc_I4_1);
+                }
             }
         );
-
-        mergeEqual.Invoke(
-            result,
-            new[] {
-                slr
-            }
-        );
-    }*/
+    }
 }

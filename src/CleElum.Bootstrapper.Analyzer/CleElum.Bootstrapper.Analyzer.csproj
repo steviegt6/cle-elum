@@ -45,6 +45,10 @@
             <Private>false</Private>
             <HintPath>..\..\lib\MMHOOK_Microsoft.CodeAnalysis.CSharp\MMHOOK_Microsoft.CodeAnalysis.CSharp.dll</HintPath>
         </Reference> -->
+        <Reference Include="Mono.Cecil">
+            <Private>false</Private>
+            <HintPath>..\..\lib\Mono.Cecil\Mono.Cecil.dll</HintPath>
+        </Reference>
         <Reference Include="MonoMod.Utils">
             <Private>false</Private>
             <HintPath>..\..\lib\MonoMod.RuntimeDetour\MonoMod.Utils.dll</HintPath>

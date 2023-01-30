@@ -4,10 +4,7 @@ using System.Collections.Immutable;
 using System.Reflection;
 using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
-using MonoMod.RuntimeDetour.HookGen;
-using MonoMod.Utils;
 
 namespace CleElum.Bootstrapper.Analyzer;
 
@@ -50,10 +47,7 @@ public sealed class BootstrapAnalyzer : DiagnosticAnalyzer {
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
         ImmutableArray.Create(initialization_failed, already_initialized);
 
-    // private static readonly List<Action<bool>> actions = new();
     private static bool initialized;
-
-    // private static bool initializedTwice;
     private static Exception? exception;
 
     public override void Initialize(AnalysisContext context) {
@@ -64,12 +58,6 @@ public sealed class BootstrapAnalyzer : DiagnosticAnalyzer {
             ctx.RegisterSymbolStartAction(_ => { }, default);
         });
         context.RegisterCompilationAction(ctx => {
-            /*if (initializedTwice) {
-                ctx.ReportDiagnostic(
-                    Diagnostic.Create(already_initialized, Location.None)
-                );
-            }*/
-
             if (exception is null)
                 return;
 
@@ -101,8 +89,6 @@ public sealed class BootstrapAnalyzer : DiagnosticAnalyzer {
             // Don't attempt to initialize again, even if it failed.
             initialized = true;
         }
-
-        Patch();
     }
 
     private const string ce_ns = "CleElum.Bootstrapper.Analyzer.";
@@ -152,79 +138,5 @@ public sealed class BootstrapAnalyzer : DiagnosticAnalyzer {
                 ? assembly_map[name.Name]
                 : null;
         };
-    }
-
-    /*/// <summary>
-    ///     Executes the given <paramref name="action"/> post-initialization.
-    /// </summary>
-    /// <param name="action">The action to execute.</param>
-    /// <exception cref="ArgumentNullException">action is null</exception>
-    public static void ExecuteAfterInitialization(Action<bool> action) {
-        if (action is null)
-            throw new ArgumentNullException(nameof(action));
-
-        if (initialized)
-            action(exception is not null);
-        else
-            actions.Add(action);
-    }*/
-
-    private static void Patch() {
-        var asm = typeof(LanguageVersion).Assembly;
-
-        var ac = asm.GetType("Microsoft.CodeAnalysis.CSharp.AccessCheck");
-        var isac = ac.GetMethod(
-            "IsSymbolAccessibleCore",
-            BindingFlags.Static | BindingFlags.NonPublic
-        );
-
-        // On_AccessCheck.IsSymbolAccessibleCore += MakeAccessible;
-        HookEndpointManager.Add(isac, MakeAccessible);
-
-        /*var type = asm.GetType("Microsoft.CodeAnalysis.CSharp.NameofBinder");
-        var meth = type?.GetMethod(
-            "LookupSymbolsInSingleBinder",
-            BindingFlags.NonPublic | BindingFlags.Instance
-        );
-
-        if (type is null || meth is null)
-            return;
-
-        HookEndpointManager.Add(
-            meth,
-            Test
-        );*/
-    }
-
-    private delegate void OrigIsSymbolAccessibleCore(
-        object symbol,
-        object within,
-        object throughTypeOpt,
-        out bool failedThroughTypeCheck,
-        CSharpCompilation compilation,
-        IntPtr useSiteInfo,
-        object basesBeingResolved
-    );
-
-    private static bool MakeAccessible(
-        OrigIsSymbolAccessibleCore orig,
-        object symbol,
-        object within,
-        object throughTypeOpt,
-        out bool failedThroughTypeCheck,
-        CSharpCompilation compilation,
-        IntPtr useSiteInfo,
-        object basesBeingResolved
-    ) {
-        orig(
-            symbol,
-            within,
-            throughTypeOpt,
-            out failedThroughTypeCheck,
-            compilation,
-            useSiteInfo,
-            basesBeingResolved
-        );
-        return true;
     }
 }
