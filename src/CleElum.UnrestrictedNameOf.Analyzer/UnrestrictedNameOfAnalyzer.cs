@@ -15,29 +15,16 @@ namespace CleElum.UnrestrictedNameOf.Analyzer;
 [UsedImplicitly]
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class UnrestrictedNameOfAnalyzer : DiagnosticAnalyzer {
-    private static readonly DiagnosticDescriptor patch = new(
-        id: PATCH_ID,
-        title: PATCH_TITLE,
-        messageFormat: PATCH_FORMAT,
-        category: CATEGORY_PATCH,
-        defaultSeverity: DiagnosticSeverity.Error,
-        isEnabledByDefault: true,
-        description: PATCH_DESCRIPTION,
-        helpLinkUri: null,
-        customTags: new[] {
-            Build,
-            Compiler,
-            CompilationEnd,
-        }
-    );
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        ImmutableArray.Create(patch);
+        ImmutableArray<DiagnosticDescriptor>.Empty;
 
-    public override void Initialize(AnalysisContext context) {
-        //context.RegisterSymbolStartAction(null, );
+    public UnrestrictedNameOfAnalyzer() {
         BootstrapAnalyzer.EnsureInitialized();
         Patch();
+    }
+    
+    public override void Initialize(AnalysisContext context) {
     }
 
     private static void Patch() {
@@ -50,7 +37,6 @@ public sealed class UnrestrictedNameOfAnalyzer : DiagnosticAnalyzer {
         );
 
         // On_AccessCheck.IsSymbolAccessibleCore += MakeAccessible;
-        var a = typeof(HookEndpointManager);
         HookEndpointManager.Modify(
             isac,
             (ILContext il) => {

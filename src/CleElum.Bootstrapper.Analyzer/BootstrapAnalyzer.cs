@@ -50,6 +50,10 @@ public sealed class BootstrapAnalyzer : DiagnosticAnalyzer {
     private static bool initialized;
     private static Exception? exception;
 
+    public BootstrapAnalyzer() {
+        EnsureInitialized();
+    }
+
     public override void Initialize(AnalysisContext context) {
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
@@ -69,8 +73,6 @@ public sealed class BootstrapAnalyzer : DiagnosticAnalyzer {
                 )
             );
         });
-
-        EnsureInitialized();
     }
 
     public static void EnsureInitialized() {
