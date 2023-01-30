@@ -34,7 +34,6 @@ public sealed class IgnoresAccessChecksToAttributeAnalyzer :
     }
 
     private static void Patch_IAssemblySymbol_GivesAccessTo() {
-        Debugger.Launch();
         var asm = typeof(CSharpExtensions).Assembly;
         var type = asm.GetType(
             "Microsoft.CodeAnalysis.CSharp.Symbols.PublicModel.AssemblySymbol"
