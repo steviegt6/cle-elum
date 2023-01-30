@@ -136,9 +136,8 @@ public sealed class BootstrapAnalyzer : DiagnosticAnalyzer {
         AppDomain.CurrentDomain.AssemblyResolve += (_,  args) => {
             var name = new AssemblyName(args.Name);
 
-            return assembly_map.ContainsKey(name.Name)
-                ? assembly_map[name.Name]
-                : null;
+            assembly_map.TryGetValue(name.Name, out var mapped);
+            return mapped;
         };
     }
 }
